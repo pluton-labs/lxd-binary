@@ -74,4 +74,6 @@ jobs:
           tag: ${{ github.event.inputs.release }}
           allowUpdates: true
           replacesArtifacts: true
+          body: |
+            **Source:** https://github.com/lxc/lxd/releases/tag/lxd-${{ github.event.inputs.release }}
           token: ${{ secrets.ORG_RELEASE_UPDATER }}
