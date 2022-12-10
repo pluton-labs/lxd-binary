@@ -23,6 +23,7 @@ RUN apt update && apt install -y \
     libudev-dev \
     libcap-dev \
     libacl1-dev \
+    lxc-dev \
     tree 
 
 RUN cd /opt && wget https://dl.google.com/go/$GOLANG_VERSION.tar.gz && \
