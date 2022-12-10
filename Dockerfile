@@ -37,6 +37,7 @@ RUN mkdir -p $GOPATH/src/
 COPY .  $GOPATH/src/
 
 WORKDIR $GOPATH/src/
+
 RUN printenv
 RUN make deps
 
@@ -49,8 +50,5 @@ RUN CGO_ENABLED=0 go build -o ${GOPATH}/bin ./lxc
 
 RUN make
 RUN ls -l ${GOPATH}/bin
-
-#RUN CGO_ENABLED=0 go build -o bin ./lxc
-#RUN CGO_ENABLED=0 go build -o bin ./lxd
 
 RUN tree .

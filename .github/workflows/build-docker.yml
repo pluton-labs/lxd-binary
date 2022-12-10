@@ -43,3 +43,29 @@ jobs:
           push: true
           tags: |
             atomlab/lxd:${{ github.run_number }}    
+
+      - name: Fetch binary files 
+        uses: addnab/docker-run-action@v3
+        with:
+          image: atomlab/lxd:${{ github.run_number }}
+          options: -v ${{ github.workspace }}/output:/output
+          run: |
+            cp /go/bin/lxc /output/
+            cp /go/bin/lxc-to-lxd /output/
+            cp /go/bin/lxd /output/
+            cp /go/bin/lxd-agent /output/
+            cp /go/bin/lxd-benchmark /output/ 
+            cp /go/bin/lxd-migrate /output/
+            cp /go/bin/lxd-user /output/
+            cp /go/bin/fuidshift /output/
+            cp /go/bin/macaroon-identity /output/
+
+      - name: Attach artifacts to Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "${{ github.workspace }}/output/*"
+          name: LXD Releases
+          tag: lxd_releases
+          allowUpdates: true
+          replacesArtifacts: true
+          token: ${{ secrets.ORG_RELEASE_UPDATER }}
