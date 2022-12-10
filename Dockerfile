@@ -22,7 +22,7 @@ RUN mkdir -p $GOPATH/src/
 COPY .  $GOPATH/src/
 
 WORKDIR $GOPATH/src/
-
+RUN printenv
 RUN make deps
 RUN export CGO_CFLAGS="${CGO_CFLAGS} -I$(go env GOPATH)/deps/dqlite/include/ -I$(go env GOPATH)/deps/raft/include/" \
     export CGO_LDFLAGS="${CGO_LDFLAGS} -L$(go env GOPATH)/deps/dqlite/.libs/ -L$(go env GOPATH)/deps/raft/.libs/" \
