@@ -3,6 +3,10 @@ FROM debian:11.2-slim as builder
 ENV GOLANG_VERSION=go1.18.9.linux-amd64
 ENV GOPATH=/go
 ENV PATH=$PATH:$GOPATH/bin
+ENV CGO_CFLAGS="${CGO_CFLAGS} -I$(go env GOPATH)/deps/dqlite/include/ -I$(go env GOPATH)/deps/raft/include/"
+ENV CGO_LDFLAGS="${CGO_LDFLAGS} -L$(go env GOPATH)/deps/dqlite/.libs/ -L$(go env GOPATH)/deps/raft/.libs/"
+ENV LD_LIBRARY_PATH="$(go env GOPATH)/deps/dqlite/.libs/:$(go env GOPATH)/deps/raft/.libs/:${LD_LIBRARY_PATH}"
+ENV CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 
 
 RUN apt update && apt install -y liblz4-dev wget curl build-essential shellcheck git
