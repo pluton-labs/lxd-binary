@@ -18,20 +18,19 @@ RUN mkdir -p $GOPATH
 RUN echo -n "GO version: " && go version
 RUN echo -n "GOPATH: " && echo $GOPATH
 
-
 RUN mkdir -p $GOPATH/src/
 COPY .  $GOPATH/src/
 
 WORKDIR $GOPATH/src/
 
-RUN make deps
-RUN export CGO_CFLAGS="${CGO_CFLAGS} -I$(go env GOPATH)/deps/dqlite/include/ -I$(go env GOPATH)/deps/raft/include/" \
-    export CGO_LDFLAGS="${CGO_LDFLAGS} -L$(go env GOPATH)/deps/dqlite/.libs/ -L$(go env GOPATH)/deps/raft/.libs/" \
-    export LD_LIBRARY_PATH="$(go env GOPATH)/deps/dqlite/.libs/:$(go env GOPATH)/deps/raft/.libs/:${LD_LIBRARY_PATH}" \
-    export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)" \
-    make build
+#RUN make deps
+#RUN export CGO_CFLAGS="${CGO_CFLAGS} -I$(go env GOPATH)/deps/dqlite/include/ -I$(go env GOPATH)/deps/raft/include/" \
+#    export CGO_LDFLAGS="${CGO_LDFLAGS} -L$(go env GOPATH)/deps/dqlite/.libs/ -L$(go env GOPATH)/deps/raft/.libs/" \
+#    export LD_LIBRARY_PATH="$(go env GOPATH)/deps/dqlite/.libs/:$(go env GOPATH)/deps/raft/.libs/:${LD_LIBRARY_PATH}" \
+#    export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)" \
+#    make build
 
-RUN CGO_ENABLED=0 go build -o bin ./lxc
-RUN CGO_ENABLED=0 go build -o bin ./lxd
+#RUN CGO_ENABLED=0 go build -o bin ./lxc
+#RUN CGO_ENABLED=0 go build -o bin ./lxd
 
 RUN tree .
