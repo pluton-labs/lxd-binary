@@ -29,7 +29,7 @@ RUN export CGO_CFLAGS="${CGO_CFLAGS} -I$(go env GOPATH)/deps/dqlite/include/ -I$
     export LD_LIBRARY_PATH="$(go env GOPATH)/deps/dqlite/.libs/:$(go env GOPATH)/deps/raft/.libs/:${LD_LIBRARY_PATH}" \
     export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)" \
     make
-RUN ls -l ${GOPATH)/bin
+RUN ls -l ${GOPATH}/bin
 
 #RUN CGO_ENABLED=0 go build -o bin ./lxc
 #RUN CGO_ENABLED=0 go build -o bin ./lxd
