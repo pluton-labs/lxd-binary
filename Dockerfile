@@ -5,7 +5,7 @@ ENV GOPATH=/go
 ENV PATH=$PATH:$GOPATH/bin
 
 
-RUN apt update && apt install -y liblz4-dev wget curl build-essential
+RUN apt update && apt install -y liblz4-dev wget curl build-essential shellcheck git
 
 RUN cd /opt && wget https://dl.google.com/go/$GOLANG_VERSION.tar.gz && \
     tar xf $GOLANG_VERSION.tar.gz
