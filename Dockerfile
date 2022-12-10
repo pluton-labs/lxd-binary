@@ -11,7 +11,7 @@ RUN mkdir -p $GOPATH
 RUN echo -n "GO version: " && go version
 RUN echo -n "GOPATH: " && echo $GOPATH
 
-RUN apt update && apt install -y liblz4-dev
+RUN apt update && apt install -y liblz4-dev wget curl build-essential
 
 RUN mkdir -p $GOPATH/src/
 COPY .  $GOPATH/src/
