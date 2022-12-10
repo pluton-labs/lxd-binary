@@ -37,6 +37,6 @@ jobs:
         with:
           context: ./app
           file: ./Dockerfile
-          push: push
+          push: true
           tags: |
             lxd:${{ github.run_number }}    
