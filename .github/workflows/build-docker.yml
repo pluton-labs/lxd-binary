@@ -1,0 +1,31 @@
+name: build-docker
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  static:
+    name: Static binaries
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          repository: lxc/lxd
+          ref: 'lxd-5.8'
+
+      - name: Build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile
+          push: false
+          tags: |
+            lxd:latest      
