@@ -66,6 +66,7 @@ jobs:
             cp /go/bin/fuidshift /output/
             cp /go/bin/macaroon-identity /output/
             cp /go/deps/dqlite/.libs/libdqlite.so.0 /output/
+            cp /go/deps/raft/.libs/libraft.so.2 /output/
 
       - name: Attach artifacts to Release
         uses: ncipollo/release-action@v1
