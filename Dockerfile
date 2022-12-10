@@ -9,7 +9,7 @@ ENV LD_LIBRARY_PATH="$(go env GOPATH)/deps/dqlite/.libs/:$(go env GOPATH)/deps/r
 ENV CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 
 
-RUN apt update && apt install -y liblz4-dev wget curl build-essential shellcheck git dh-autoreconf libsqlite3-dev pkg-config libuv1-dev
+RUN apt update && apt install -y liblz4-dev wget curl build-essential shellcheck git dh-autoreconf libsqlite3-dev pkg-config libuv1-dev tree
 
 RUN cd /opt && wget https://dl.google.com/go/$GOLANG_VERSION.tar.gz && \
     tar xf $GOLANG_VERSION.tar.gz
@@ -25,3 +25,5 @@ COPY .  $GOPATH/src/
 WORKDIR $GOPATH/src/
 
 RUN make deps 
+RUN make
+RUN tree .
