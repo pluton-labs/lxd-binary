@@ -46,9 +46,6 @@ ENV CGO_LDFLAGS="-L/go/deps/raft/.libs -L/go/deps/dqlite/.libs/"
 ENV LD_LIBRARY_PATH="/go/deps/raft/.libs/:/go/deps/dqlite/.libs/"
 ENV CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 
-RUN CGO_ENABLED=0 go build -o ${GOPATH}/bin ./lxc
-
 RUN make
-RUN ls -l ${GOPATH}/bin
 
-RUN tree .
+RUN ls -l ${GOPATH}/bin
