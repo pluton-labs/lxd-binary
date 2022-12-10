@@ -14,7 +14,7 @@ RUN apt update && apt install -y liblz4-dev wget curl build-essential shellcheck
 RUN cd /opt && wget https://dl.google.com/go/$GOLANG_VERSION.tar.gz && \
     tar xf $GOLANG_VERSION.tar.gz
 RUN ln -s /opt/go/bin/go /usr/bin/go
-RUN mkdir -p $GOPATH
+RUN mkdir -p $GOPATH/bin
 RUN echo -n "GO version: " && go version
 RUN echo -n "GOPATH: " && echo $GOPATH
 
