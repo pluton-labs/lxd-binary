@@ -33,7 +33,7 @@ endif
 	CC="$(CC)" CGO_LDFLAGS_ALLOW="$(CGO_LDFLAGS_ALLOW)" go install -v -tags "$(TAG_SQLITE3)" $(DEBUG) ./...
 	CGO_ENABLED=0 go install -v -tags netgo ./lxd-migrate
 	CGO_ENABLED=0 go install -v -tags agent,netgo ./lxd-agent
-    CGO_ENABLED=0 go build   -v -tags agent,netgo ./lxd-agent-static
+    CGO_ENABLED=0 go build -o bin -v -tags agent,netgo ./lxd-agent-static
 	@echo "LXD built successfully"
 
 .PHONY: client
