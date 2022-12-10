@@ -46,7 +46,7 @@ jobs:
         with:
           context: ./app
           file: ./Dockerfile
-          push: true
+          push: false
           tags: |
             ${{ secrets.ORG_DOCKERHUB_USERNAME }}/lxd:${{ github.run_number }}    
 
