@@ -2,6 +2,12 @@ name: build-docker
 
 on:
   workflow_dispatch:
+    inputs:
+      release: 
+        type: choice
+        description: Release
+        options:
+        - "5.8"
 
 jobs:
 
@@ -29,7 +35,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: lxc/lxd
-          ref: 'lxd-5.8'
+          ref: "lxd-${{ github.event.inputs.release }}"
           path: ./app
 
       #- name: Use custom make file 
@@ -64,8 +70,8 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "${{ github.workspace }}/output/*"
-          name: LXD Releases
-          tag: lxd_releases
+          name: lxd-${{ github.event.inputs.release }} binary files
+          tag: ${{ github.event.inputs.release }}
           allowUpdates: true
           replacesArtifacts: true
           token: ${{ secrets.ORG_RELEASE_UPDATER }}
