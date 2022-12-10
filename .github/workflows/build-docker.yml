@@ -32,8 +32,8 @@ jobs:
           ref: 'lxd-5.8'
           path: ./app
 
-      - name: Use custom make file 
-        run: cp make ./app/
+      #- name: Use custom make file 
+      #  run: cp make ./app/
 
       - name: Build
         uses: docker/build-push-action@v2
