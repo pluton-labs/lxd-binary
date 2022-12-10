@@ -15,7 +15,10 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout code
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Checkout lxd code
         uses: actions/checkout@v3
         with:
           repository: lxc/lxd
