@@ -21,8 +21,9 @@ RUN apt update && apt install -y \
     pkg-config \
     libuv1-dev \
     libudev-dev \
-    tree \
-    libcap-dev
+    libcap-dev \
+    libacl1-dev \
+    tree 
 
 RUN cd /opt && wget https://dl.google.com/go/$GOLANG_VERSION.tar.gz && \
     tar xf $GOLANG_VERSION.tar.gz
