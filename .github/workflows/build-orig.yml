@@ -1,0 +1,63 @@
+name: build-orig
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  static:
+    name: Static binaries
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.18.x
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          repository: lxc/lxd
+          ref: 'lxd-5.8'
+
+      - name: Create build directory
+        run: |
+          mkdir bin
+
+      - name: make deps
+        env:
+          CGO_ENABLED: 0
+        run: |
+          apt update && apt install -y liblz4-dev
+          make deps 
+          make
+
+      - name: tree 
+        run: 
+          tree .
+
+      - name: Build static lxc
+        env:
+          CGO_ENABLED: 0
+        run: |
+          go build -o bin ./lxc
+
+      - name: Build static lxd-migrate
+        if: runner.os == 'Linux'
+        env:
+          CGO_ENABLED: 0
+        run: |
+          go build -o bin ./lxd-migrate
+
+      #- name: Upload artifacts
+      #  uses: actions/upload-artifact@v3
+      #  continue-on-error: true
+      #  with:
+      #    name: ${{ runner.os }}
+      #    path: bin/

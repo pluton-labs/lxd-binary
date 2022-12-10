@@ -1,0 +1,71 @@
+name: build-docker
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  static:
+    name: Static binaries
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    steps:
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.ORG_DOCKERHUB_USERNAME }}
+          password: ${{ secrets.ORG_DOCKERHUB_TOKEN }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Checkout lxd code
+        uses: actions/checkout@v3
+        with:
+          repository: lxc/lxd
+          ref: 'lxd-5.8'
+          path: ./app
+
+      #- name: Use custom make file 
+      #  run: cp make ./app/
+
+      - name: Build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./app
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.ORG_DOCKERHUB_USERNAME }}/lxd:${{ github.run_number }}    
+
+      - name: Fetch binary files 
+        uses: addnab/docker-run-action@v3
+        with:
+          image: ${{ secrets.ORG_DOCKERHUB_USERNAME }}/lxd:${{ github.run_number }}
+          options: -v ${{ github.workspace }}/output:/output
+          run: |
+            cp /go/bin/lxc /output/
+            cp /go/bin/lxc-to-lxd /output/
+            cp /go/bin/lxd /output/
+            cp /go/bin/lxd-agent /output/
+            cp /go/bin/lxd-benchmark /output/ 
+            cp /go/bin/lxd-migrate /output/
+            cp /go/bin/lxd-user /output/
+            cp /go/bin/fuidshift /output/
+            cp /go/bin/macaroon-identity /output/
+
+      - name: Attach artifacts to Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "${{ github.workspace }}/output/*"
+          name: LXD Releases
+          tag: lxd_releases
+          allowUpdates: true
+          replacesArtifacts: true
+          token: ${{ secrets.ORG_RELEASE_UPDATER }}
