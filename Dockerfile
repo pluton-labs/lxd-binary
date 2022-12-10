@@ -24,11 +24,12 @@ COPY .  $GOPATH/src/
 WORKDIR $GOPATH/src/
 RUN printenv
 RUN make deps
-RUN export CGO_CFLAGS="${CGO_CFLAGS} -I$(go env GOPATH)/deps/dqlite/include/ -I$(go env GOPATH)/deps/raft/include/" && \
-    export CGO_LDFLAGS="${CGO_LDFLAGS} -L$(go env GOPATH)/deps/dqlite/.libs/ -L$(go env GOPATH)/deps/raft/.libs/" && \
-    export LD_LIBRARY_PATH="$(go env GOPATH)/deps/dqlite/.libs/:$(go env GOPATH)/deps/raft/.libs/:${LD_LIBRARY_PATH}" && \
-    export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)" && \
-    make
+
+ENV CGO_CFLAGS="-I/go/deps/raft/include/ -I/go/deps/dqlite/include/"
+ENV CGO_LDFLAGS="-L/go/deps/raft/.libs -L/go/deps/dqlite/.libs/"
+ENV LD_LIBRARY_PATH="/go/deps/raft/.libs/:/go/deps/dqlite/.libs/"
+ENV CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
+RUN make
 RUN ls -l ${GOPATH}/bin
 
 #RUN CGO_ENABLED=0 go build -o bin ./lxc
