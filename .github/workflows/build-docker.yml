@@ -39,4 +39,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            lxd:${{ github.run_number }}    
+            atomlab/lxd:${{ github.run_number }}    
