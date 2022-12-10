@@ -34,6 +34,7 @@ jobs:
         env:
           CGO_ENABLED: 0
         run: |
+          apt install -y liblz4-dev
           make deps 
           make
 
