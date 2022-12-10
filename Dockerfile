@@ -24,6 +24,5 @@ COPY .  $GOPATH/src/
 
 WORKDIR $GOPATH/src/
 
-RUN make deps 
-RUN make
+RUN make deps && make
 RUN tree .
