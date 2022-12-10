@@ -20,11 +20,12 @@ jobs:
         with:
           repository: lxc/lxd
           ref: 'lxd-5.8'
+          path: ./app
 
       - name: Build
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ./app
           file: ./Dockerfile
           push: false
           tags: |
